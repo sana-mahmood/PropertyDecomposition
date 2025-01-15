@@ -1,0 +1,104 @@
+<network>
+    <!-- Router (Node 0) -->
+    <node id="0" type="Router">
+        <ports>
+            <!-- Connection to Access Point -->
+            <port id="1">
+                <connection node="1" port="1"/>
+            </port>
+            <!-- Connection to Internet Gateway -->
+            <port id="2">
+                <connection node="7" port="1"/>
+            </port>
+            <!-- Connection to Laptop (Non-child device) -->
+            <port id="3">
+                <connection node="4" port="1"/>
+            </port>
+            <port id="4">
+                <connection node="3" port="1"/>
+            </port>
+        </ports>
+        <routingTable>
+            <!-- Traffic from Laptop to Internet Gateway -->
+            <entry id="1" src="4" dst="7" outPort="2" action="OUT_PORT" active="1" rules=""/>
+            <!-- Traffic from Game Console to Internet Gateway -->
+            <entry id="2" src="3" dst="7" outPort="2" action="OUT_PORT" active="1" rules=""/>
+            <!-- Traffic from Access Point to Internet Gateway for child devices -->
+            <entry id="3" src="ANY" dst="ANY" inPort="1" outPort="2" action="OUT_PORT" active="1" rules=""/>
+        </routingTable>
+    </node>
+
+    <!-- Access Point (Node 1) -->
+    <node id="1" type="Access Point">
+        <ports>
+            <!-- Connection to Router -->
+            <port id="1">
+                <connection node="0" port="1"/>
+            </port>
+            <!-- Connection to Tablet -->
+            <port id="2">
+                <connection node="2" port="1"/>
+            </port>
+        </ports>
+        <routingTable>
+            <!-- Traffic from Tablet to Router -->
+            <entry id="1" src="2" dst="7" outPort="1" action="OUT_PORT" active="1" rules=""/>
+        </routingTable>
+    </node>
+
+    <!-- Tablet (Node 2) -->
+    <node id="2" type="Tablet">
+        <ports>
+            <!-- Connection to Access Point -->
+            <port id="1">
+                <connection node="1" port="2"/>
+            </port>
+        </ports>
+        <routingTable>
+            <!-- Traffic to Access Point -->
+            <entry id="1" src="2" dst="7" outPort="1" action="OUT_PORT" active="1" rules=""/>
+        </routingTable>
+    </node>
+
+    <!-- GameConsole (Node 3) -->
+    <node id="3" type="Game Console">
+        <ports>
+            <!-- Connection to Access Point -->
+            <port id="1">
+                <connection node="0" port="4"/>
+            </port>
+        </ports>
+        <routingTable>
+            <!-- Traffic to Access Point -->
+            <entry id="1" src="3" dst="7" outPort="1" action="OUT_PORT" active="1" rules=""/>
+        </routingTable>
+    </node>
+
+    <!-- Laptop (Node 4) -->
+    <node id="4" type="Laptop">
+        <ports>
+            <!-- Connection to Router -->
+            <port id="1">
+                <connection node="0" port="3"/>
+            </port>
+        </ports>
+        <routingTable>
+            <!-- Traffic directly to Internet Gateway -->
+            <entry id="1" src="4" dst="7" outPort="1" action="OUT_PORT" active="1" rules=""/>
+        </routingTable>
+    </node>
+
+    <!-- Internet Gateway (Node 7) -->
+    <node id="7" type="Internet Gateway">
+        <ports>
+            <!-- Connection to Router -->
+            <port id="1">
+                <connection node="0" port="2"/>
+            </port>
+        </ports>
+        <routingTable>
+            <!-- Direct connection to the Internet -->
+            <entry id="1" src="7" dst="0" outPort="1" action="OUT_PORT" active="1" rules=""/>
+        </routingTable>
+    </node>
+</network>
