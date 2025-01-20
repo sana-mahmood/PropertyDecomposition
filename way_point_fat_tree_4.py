@@ -91,6 +91,10 @@ def new_path_post_waypoint():
 def true_func():
     return True
 
+def reset_params():
+    global hops
+    hops = 0
+
 
 q0 = Node(0, False)
 automata = BuchiAutomata(q0)
@@ -113,10 +117,6 @@ automata.add_transition([Network.CURRENT_NODE], path_continues_without_end_node,
 automata.add_transition([Network.CURRENT_NODE], reached_destination, 3, 4)
 automata.add_transition([Network.PATH_ID], new_path_pre_waypoint, 4, 2)
 automata.add_transition([Network.PATH_ID], new_path_post_waypoint, 4, 3)
-# automata.add_transition([Network.PATH_ID], new_path_pre_waypoint(), 4, 2)
-def reset_params():
-    global hops
-    hops = 0
 
 start_time = time.time()
 
@@ -124,6 +124,7 @@ servers_per_pod = (k // 2) ** 2
 num_pods = k  # The number of pods is equal to k in a k-ary fat tree.
 
 violations = 0
+
 # Loop over each pod
 # for pod_id in range(num_pods):
 #     # Get the range of servers in this pod
@@ -177,17 +178,3 @@ if violations == 0:
     print("No violations")
 else:
     print("violations found: ", violations)
-#
-# NOTE:
-#
-# So the reaosn they are failing is because of the "Explore all paths thing"
-#     when destination aggregate looks at the other path, tha waypoint situation is never fulfilled.
-#     So i need to update the "new path" function where it returns true only when its a new path outside of destination pod
-#
-# Another thing to fix:
-#     I need to reset the safety automata everytime we look at new server pairs.
-#     maybe not unhook callbacks but just go to state 0
-#
-# Another thing to fix:
-#     in the generate fat tree code: update the code to be destination based (not src and dst based rules)
-#     this will make things more realistic and fast

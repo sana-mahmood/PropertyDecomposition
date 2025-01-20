@@ -126,7 +126,6 @@ class Network:
         self.parse_xml(xml_data)
 
     def receive_packet(self, node, packet, in_port):
-        # TODO This is wrong!! why am i sending packet on multiple paths!! it should just randomly pick one
         """
         Process an incoming packet and forward it if a match is found in the routing table.
         """
@@ -209,12 +208,9 @@ class Network:
             N.Values[N.DROPPED] = False  # resetting it since the operation has been accounted for
 
         N.set_value(N.HOP_COUNT, N.Values[N.HOP_COUNT] - 1)
-        # if (N.Values[N.HOP_COUNT] < 1): print("in MAIN RETURN", N.Values[N.CURRENT_NODE], node.ID)
         return res
 
     def server_send(self, src, dst):
         packet = Packet(src=src, dst=dst, metric=None, protocol=None)
-        # Start packet transmission at node 1, arriving on port 101
         N.set_value(N.SOURCE, src)
-        # print("sending from", src, "to", dst)
         self.receive_packet(self.node_dict[src], packet, in_port=-1)

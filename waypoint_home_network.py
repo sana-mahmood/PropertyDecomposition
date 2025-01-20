@@ -28,9 +28,6 @@ def path_continues_without_waypoint_or_end_node():
         return True
 
 def path_continues_without_end_node():
-    # if Network.Values[Network.DROPPED]:
-    #     return False
-
     global hops
     if Values[HOP_COUNT] <= hops:
         return False
@@ -90,23 +87,16 @@ automata.add_transition([Network.PATH_ID], new_path, 4, 2)
 start_time = time.time()
 op = True
 
-# op = op and verification_interface.explore_all_paths(["home_network.xml"],
-#                                                      "4", "7", "S", automata)
 op = op and verification_interface.explore_all_paths(["home_network_0.xml", "home_network_0.xml", "home_network_0.xml", "home_network.xml"],
                                                      "4", "7", "L", automata, reset_params)
 reset_params()
-# op = op and verification_interface.explore_all_paths(["home_network.xml"],
-#                                                      "2", "7", "S", automata)
 op = op and verification_interface.explore_all_paths(["home_network_0.xml", "home_network_0.xml", "home_network_0.xml", "home_network.xml"],
                                                      "2", "7", "L", automata, reset_params)
-print(op)
 reset_params()
-# op = op and verification_interface.explore_all_paths(["home_network.xml"],
-#                                                      "3", "7", "S", automata)
 op = op and verification_interface.explore_all_paths(["home_network_0.xml", "home_network_0.xml", "home_network_0.xml", "home_network.xml"],
                                                      "3", "7", "L", automata, reset_params)
-print(op)
 reset_params()
+
 # Record the end time
 end_time = time.time()
 

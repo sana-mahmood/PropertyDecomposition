@@ -25,14 +25,9 @@ class Node:
 
 
     def undefined_transitions(self):
-        # res = True
-        # for transition in self.transitions[:-1]:
-        #     res = res and (not transition.condition())
-        # return res
         return self.undefined_transition
 
     def execute_transitions(self):
-        #TODO: need to handle the non-deterministic case here
         next_nodes = []
         self.undefined_transition = True
         for transition in self.transitions:
@@ -55,11 +50,12 @@ class Node:
 
 
 class BuchiAutomata:
-    def __init__(self, node):
+    def __init__(self, node, deter=True):
         self.start_node = node.ID
         self.current_nodes = [node.ID]
         self.callback_params = []
         self.all_nodes = {node.ID: node}
+        self.deterministic = deter
 
     def modification_callback(self, param_name):
         all_none = True
@@ -72,7 +68,6 @@ class BuchiAutomata:
             next_node_id_list = node.execute_transitions()
             if next_node_id_list is not None:
                 new_current_nodes.extend(next_node_id_list)
-                # self.current_nodes[i] = next_node_id
                 all_none = False
 
         if dependant_param:
@@ -85,7 +80,6 @@ class BuchiAutomata:
                 raise Exception(exception_str)
 
             self.current_nodes = new_current_nodes
-            # sys.exit("Automata Failed! - Property Failed")
 
     def add_node(self, node):
         self.all_nodes[node.ID] = node
@@ -136,13 +130,6 @@ def decompose_liveness(automata):
         if id == trap_id:
             continue
 
-        # # generate statement for all undefined transition
-        # def undefined_transitions():
-        #     res = True
-        #     for transition in node.transitions:
-        #         res = res and (not transition.condition)
-        #     return res
-
         # direct undefined transition to trap node
         live_automata.add_transition([], node.undefined_transitions, node.ID, trap_id)
 
@@ -157,10 +144,4 @@ def decompose_liveness(automata):
     else:
         return [2, live_automata]
 
-
-
-#NOTE #TODO
-"""
-in case we reach a state with infinite self transition (True) -- Bucchi automata should return as accepted
-"""
 

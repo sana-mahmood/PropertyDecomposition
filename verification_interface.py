@@ -56,8 +56,7 @@ def verify_safety_between_two_nodes(network_file, node_id_A, node_id_B):
     safety_automata.current_nodes = [safety_automata.start_node]
     N.reset_vals()
     return True
-    # print("Safety Property Holds")
-    # safety_automata.remove_callbacks()
+
 
 def verify_liveness_between_two_nodes(network_file_list, node_id_A, node_id_B, reset_cb):
     good_thing = False
