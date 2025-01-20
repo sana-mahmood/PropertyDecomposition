@@ -94,7 +94,6 @@ op = True
 #                                                      "4", "7", "S", automata)
 op = op and verification_interface.explore_all_paths(["home_network_0.xml", "home_network_0.xml", "home_network_0.xml", "home_network.xml"],
                                                      "4", "7", "L", automata, reset_params)
-print(op)
 reset_params()
 # op = op and verification_interface.explore_all_paths(["home_network.xml"],
 #                                                      "2", "7", "S", automata)
